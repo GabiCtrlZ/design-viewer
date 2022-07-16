@@ -1,5 +1,6 @@
 const OVERLAY_ID = 'design-viewer-overlay-element'
 let isDesignerView = false
+let isOpacityLow = false
 
 const createNewBackgroundOverlay = (objectUrl) => {
   const backgroundImageUrl = `url(${objectUrl})`
@@ -20,6 +21,14 @@ const createNewBackgroundOverlay = (objectUrl) => {
   overlay.style.zIndex = '2147483647'
   overlay.id = OVERLAY_ID
   document.body.appendChild(overlay)
+}
+
+const changeOpacity = () => {
+  const existingOverlay = document.getElementById(OVERLAY_ID)
+  if (existingOverlay) {
+    existingOverlay.style.opacity = isOpacityLow ? '100%' : '50%'
+    isOpacityLow = !isOpacityLow
+  }
 }
 
 const updateDisplay = (event) => {
@@ -88,11 +97,13 @@ const handleCommand = (command) => {
     case 'run-foo':
       isDesignerView = !isDesignerView
       if (!isDesignerView) mouseLeave()
+      else if (isDesignerView) updateDisplay()
       break
-    case 'second-command':
-      console.log('second-command')
+    case 'other-command':
+      changeOpacity()
       break
     default:
+      console.log(command)
       break
   }
 }
