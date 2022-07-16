@@ -1,0 +1,44 @@
+body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: sans-serif;
+}
+
+button,
+label {
+  cursor: pointer;
+  width: 145px;
+  background: rgb(40, 40, 59);
+  border: 0;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  transition: 200ms;
+}
+
+button:hover,
+label:hover {
+  background: rgb(76, 76, 128);
+}
+
+label {
+  width: 125px;
+}
+
+.container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 300px;
+}
+
+#file-chosen {
+  margin-left: 0.3rem;
+  font-family: sans-serif;
+}

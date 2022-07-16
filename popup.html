@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link href="popup.css" rel="stylesheet" type="text/css" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container">
+    <input type="file" id="design-input" name="design-input" accept="image/png, image/jpeg" hidden />
+
+    <!-- our custom upload button -->
+    <label for="design-input">
+      <span class="material-symbols-outlined">
+        file_upload
+      </span>
+      Choose File
+    </label>
+
+    <!-- name of file chosen -->
+    <span id="file-chosen">No file chosen</span>
+  </div>
+  <div>
+    <button id="boink-button">
+      <span class="material-symbols-outlined">
+        add_circle
+      </span>
+      Apply design
+    </button>
+  </div>
+</body>
+<script type="module" src="popup.js"></script>
+
+</html>
