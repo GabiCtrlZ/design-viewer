@@ -68,7 +68,9 @@ function sendBlobToApp(blob, appId) {
       type: 'BLOB',
       blobAsText: fr.result,
       mimeString: blob.type,
-      chunks
+      width,
+      height,
+      chunks,
     }
     chrome.tabs.sendMessage(appId, message, sendCallback)
 
