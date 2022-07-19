@@ -2,7 +2,7 @@ const OVERLAY_ID = 'design-viewer-overlay-element'
 let isDesignerView = false
 let isOpacityLow = false
 
-const createNewBackgroundOverlay = (objectUrl) => {
+const createNewBackgroundOverlay = (objectUrl, height) => {
   const backgroundImageUrl = `url(${objectUrl})`
   const existingOverlay = document.getElementById(OVERLAY_ID)
   if (existingOverlay) {
@@ -13,7 +13,7 @@ const createNewBackgroundOverlay = (objectUrl) => {
   const overlay = document.createElement('div')
   overlay.style.backgroundImage = backgroundImageUrl
   overlay.style.width = '0'
-  overlay.style.height = '100vh'
+  overlay.style.height = `max(${height}px, 100vh)`
   overlay.style.position = 'absolute'
   overlay.style.left = '0'
   overlay.style.top = '0'
@@ -88,7 +88,7 @@ const handleBlob = (request) => {
   if (!blob) return
 
   const objectUrl = _URL.createObjectURL(blob)
-  createNewBackgroundOverlay(objectUrl)
+  createNewBackgroundOverlay(objectUrl, request.height)
   isDesignerView = true
 }
 
