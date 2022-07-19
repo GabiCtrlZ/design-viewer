@@ -44,9 +44,11 @@ boinkButton.addEventListener('click', async () => {
 
 const callResize = () => {
   chrome.windows.getCurrent(({ id }) => {
+    const maxWidth = window.screen.availWidth;
+    const maxHeight = window.screen.availHeight;
     const updateInfo = {
-      width,
-      height,
+      width: Math.min(width, maxWidth),
+      height: Math.min(height, maxHeight),
     };
     chrome.windows.update(id, updateInfo);
   });
