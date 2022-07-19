@@ -1,6 +1,9 @@
 const OVERLAY_ID = 'design-viewer-overlay-element'
 let isDesignerView = false
 let isOpacityLow = false
+let _chunkIndex = 0
+let mergedBlob = undefined
+let _blobs = []
 
 const createNewBackgroundOverlay = (objectUrl, height) => {
   const backgroundImageUrl = `url(${objectUrl})`
@@ -50,10 +53,6 @@ const mouseLeave = () => {
 }
 
 const getBlob = ({ blobAsText, mimeString, chunks }) => {
-  let _chunkIndex = 0
-  let mergedBlob
-  const _blobs = []
-
   if (blobAsText) {
     //new chunk received  
     _chunkIndex++
@@ -77,7 +76,12 @@ const getBlob = ({ blobAsText, mimeString, chunks }) => {
         }
       }
 
-      return mergedBlob
+      const output = mergedBlob
+
+      mergedBlob = undefined
+      _blobs = []
+      _chunkIndex = 0
+      return output
     }
   }
 }

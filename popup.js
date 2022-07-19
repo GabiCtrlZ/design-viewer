@@ -16,7 +16,6 @@ let file, width, height
 
 fileSelector.addEventListener('change', (event) => {
   const fileList = event.target.files
-  console.log(fileList)
 
   file = fileList[0]
   if (file) {
