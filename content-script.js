@@ -40,7 +40,7 @@ const updateDisplay = (event) => {
   const existingOverlay = document.getElementById(OVERLAY_ID)
   if (!existingOverlay) return
 
-  existingOverlay.style.width = `${event.pageX}px`
+  existingOverlay.style.width = `${event.pageX + 2}px`
   existingOverlay.style.boxShadow = 'red 2px 0px 0px'
 }
 
