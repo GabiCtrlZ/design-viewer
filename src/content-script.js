@@ -1,19 +1,22 @@
+/* eslint-disable consistent-return */
 const OVERLAY_ID = 'design-viewer-overlay-element'
 let isDesignerView = false
 let isOpacityLow = false
-let _chunkIndex = 0
-let mergedBlob = undefined
-let _blobs = []
+let chunkIndex = 0
+let blobs = []
 
 const createNewBackgroundOverlay = (objectUrl, height) => {
   const backgroundImageUrl = `url(${objectUrl})`
   const existingOverlay = document.getElementById(OVERLAY_ID)
+
   if (existingOverlay) {
     existingOverlay.style.backgroundImage = backgroundImageUrl
+
     return
   }
 
   const overlay = document.createElement('div')
+
   overlay.style.backgroundImage = backgroundImageUrl
   overlay.style.width = '0'
   overlay.style.height = `max(${height}px, 100vh)`
@@ -28,70 +31,67 @@ const createNewBackgroundOverlay = (objectUrl, height) => {
 
 const changeOpacity = () => {
   const existingOverlay = document.getElementById(OVERLAY_ID)
+
   if (existingOverlay) {
     existingOverlay.style.opacity = isOpacityLow ? '100%' : '50%'
     isOpacityLow = !isOpacityLow
   }
 }
 
-const updateDisplay = (event) => {
-  if (!isDesignerView) return mouseLeave()
-
-  const existingOverlay = document.getElementById(OVERLAY_ID)
-  if (!existingOverlay) return
-
-  existingOverlay.style.width = `${event.pageX + 2}px`
-  existingOverlay.style.boxShadow = 'red 2px 0px 0px'
-}
-
 const mouseLeave = () => {
   const existingOverlay = document.getElementById(OVERLAY_ID)
+
   if (!existingOverlay) return
 
   existingOverlay.style.width = '0'
   existingOverlay.style.boxShadow = '0'
 }
 
+const updateDisplay = (event) => {
+  if (!isDesignerView) return mouseLeave()
+
+  const existingOverlay = document.getElementById(OVERLAY_ID)
+
+  if (!existingOverlay) return
+
+  existingOverlay.style.width = `${event.pageX + 2}px`
+  existingOverlay.style.boxShadow = 'red 2px 0px 0px'
+}
+
 const getBlob = ({ blobAsText, mimeString, chunks }) => {
   if (blobAsText) {
-    //new chunk received  
-    _chunkIndex++
+    // new chunk received
+    chunkIndex += 1
 
-    const bytes = new Uint8Array(blobAsText.length)
-    for (let i = 0; i < bytes.length; i++) {
-      bytes[i] = blobAsText.charCodeAt(i)
-    }
+    const bytes = new Uint8Array(blobAsText.length).map((_, idx) => blobAsText.charCodeAt(idx))
+
     // store blob
-    _blobs[_chunkIndex - 1] = new Blob([bytes], { type: mimeString })
+    blobs[chunkIndex - 1] = new Blob([bytes], { type: mimeString })
 
-    if (_chunkIndex == chunks) {
+    if (chunkIndex === chunks) {
       // merge all blob chunks
-      for (let j = 0; j < _blobs.length; j++) {
-        if (j > 0) {
-          // append blob
-          mergedBlob = new Blob([mergedBlob, _blobs[j]], { type: mimeString })
-        }
-        else {
-          mergedBlob = new Blob([_blobs[j]], { type: mimeString })
-        }
-      }
+      const mergedBlob = blobs.reduce((acc, curr) => {
+        if (acc) return new Blob([acc, curr], { type: mimeString })
 
-      const output = mergedBlob
+        return new Blob([curr], { type: mimeString })
+      }, undefined)
 
-      mergedBlob = undefined
-      _blobs = []
-      _chunkIndex = 0
-      return output
+      blobs = []
+      chunkIndex = 0
+
+      return mergedBlob
     }
   }
 }
 
 const handleBlob = (request) => {
-  const _URL = window.URL || window.webkitURL
+  const URL = window.URL || window.webkitURL
   const blob = getBlob(request)
+
   if (!blob) return
 
-  const objectUrl = _URL.createObjectURL(blob)
+  const objectUrl = URL.createObjectURL(blob)
+
   createNewBackgroundOverlay(objectUrl, request.height)
   isDesignerView = true
 }
@@ -114,6 +114,7 @@ const handleCommand = (command) => {
 
 const receiveMessage = (request, _sender, sendResponse) => {
   const { type } = request
+
   switch (type) {
     case 'BLOB':
       handleBlob(request)
@@ -129,11 +130,11 @@ const receiveMessage = (request, _sender, sendResponse) => {
 }
 
 const main = () => {
-  chrome.runtime.onMessage.addListener(receiveMessage);
+  chrome.runtime.onMessage.addListener(receiveMessage)
 
-  document.addEventListener("mousemove", updateDisplay, false);
-  document.addEventListener("mouseenter", updateDisplay, false);
-  document.addEventListener("mouseleave", mouseLeave, false);
+  document.addEventListener('mousemove', updateDisplay, false)
+  document.addEventListener('mouseenter', updateDisplay, false)
+  document.addEventListener('mouseleave', mouseLeave, false)
 }
 
 main()

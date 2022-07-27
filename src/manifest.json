@@ -1,7 +1,7 @@
 {
   "name": "Design Viewer",
   "version": "0.1.0",
-  "description": "TODO: add description",
+  "description": "Design Viewer is a handy extension that allows you to quickly compare designs (Figma and such) with real websites in real time",
   "permissions": [
     "storage",
     "tabs"

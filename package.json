@@ -1,0 +1,36 @@
+{
+  "name": "design-viewer",
+  "version": "1.0.0",
+  "author": "Gabriel Balko",
+  "description": "View designs in real time",
+  "files": [
+    "/dist"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^8.13.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-filenames": "^1.3.2",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-no-loops": "^0.3.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.29.4"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .js",
+    "lint-fix": "eslint --fix . --ext .js",
+    "lint-fix-dry": "eslint --fix-dry-run . --ext .js"
+  },
+  "license": "ISC",
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog"
+    ],
+    "branches": [
+      "main"
+    ]
+  },
+  "repository": "https://github.com/gabictrlz/design-viewer"
+}
