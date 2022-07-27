@@ -11,10 +11,10 @@ const sendCallback = () => {
 const callResize = () => {
   chrome.windows.getCurrent(({ id }) => {
     const maxWidth = window.screen.availWidth
-    const maxHeight = window.screen.availHeight
+    // const maxHeight = window.screen.availHeight
     const updateInfo = {
       width: Math.min(width, maxWidth),
-      height: Math.min(height, maxHeight),
+      // height: Math.min(height, maxHeight),
     }
 
     chrome.windows.update(id, updateInfo)
